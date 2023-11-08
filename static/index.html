@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chet</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="flexElements">
+        <header class="header"><p>telegramm 2.0</p></header>
+            <ul class="chatArea" id="message">
+              <li class="myMessage">hi</li>
+              <li class="interlocutorMessage">hi</li>
+            </ul>
+        <form id="form" class="interactionTool">
+            <input type="text" placeholder="Enter message...">
+            <input type="submit" value="send" id="playButton">
+        </form>
+    </div>
+<script src="https://cdn.socket.io/4.5.3/socket.io.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

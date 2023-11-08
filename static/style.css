@@ -1,0 +1,76 @@
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+body{
+    width: 100%;
+    height: 100%;
+}
+
+.flexElements{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-direction: column;
+}
+
+.header{
+    display: flex;
+    color: white;
+    background-color:blue;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 10%;
+
+}
+
+.chatArea{
+    width: 100%;
+    height: 100%;
+    font-size: 150%;
+}
+.interactionTool{
+    width: 100%;
+    height: 10%;
+    align-items: center;
+    flex-direction: row;
+    border: 1px solid black;
+    
+}
+
+input[type="text"] {
+    width: 80%;
+    height: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+input[type="submit"]{
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background: blue;
+    color:white;
+    width: 15%;
+    height: 100%;
+}
+
+.interlocutorMessage{
+    color: red;
+}
+
+.myMessage{
+    color: blue;
+}
+
+ul{
+    list-style-type:  none;
+}
