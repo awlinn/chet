@@ -8,30 +8,50 @@ let db = require("./database")
 
 const mysql = require('mysql2');
 
+const indexHtmlFile = fs.readFileSync(path.join(__dirname,"static","chat","index.html"));
+const scriptJsFile = fs.readFileSync(path.join(__dirname,"static","chat","script.js"));
+const styleScriptFile = fs.readFileSync(path.join(__dirname,"static","chat","style.css"));
 
-const pathToIndex = path.join(__dirname,"static","index.html");
-const indexHtmlFile = fs.readFileSync(pathToIndex);
+const regHtmlFile = fs.readFileSync( path.join(__dirname,"static","regChat","reg.html"));
+const regJsFile = fs.readFileSync(path.join(__dirname,"static","regChat","regJs.js"));
+const regCssFile = fs.readFileSync(path.join(__dirname,"static","regChat","regCss.css"));
 
-const scriptFile = path.join(__dirname,"static","script.js");
-const scriptJsFile = fs.readFileSync(scriptFile);
 
-const cssFile = path.join(__dirname,"static","style.css");
-const styleScriptFile = fs.readFileSync(cssFile);
+
 
 const server = http.createServer((request, response)=> {
-
-    switch(request.url){
-        case '/': return response.end(indexHtmlFile);
-        case "/script.js": return  response.end(scriptJsFile);
-        case "/style.css": return response.end(styleScriptFile);
+    if(request.method === "GET"){
+        switch(request.url){
+            case "/": return  response.end(regHtmlFile);
+            case '/regJs.js': return response.end(regJsFile);
+            case "/regCss.css": return response.end(regCssFile);
+            case "/index.html": return response.end(indexHtmlFile);
+            case "/script.js": return  response.end(scriptJsFile);
+            case "/style.css": return response.end(styleScriptFile);
+        }
+    }else if(request.method === "POST"){
+        switch(request.url){
+            case "/api/register": return registerUser(request, response)
+        }
     }
-
         response.statusCode = 404;
         return response.end('Error 404');
 });
 
 server.listen(5050);
 
+
+function registerUser(request, response){
+
+    let data = "";
+    request.on("data", function(chunk) {
+        data += chunk;
+    });
+    request.on('end', function() {
+        console.log(data);
+        return response.end();
+    });
+}
 
 /*
 const connection = mysql.createConnection({
