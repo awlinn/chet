@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "mysql2": "^3.6.1",
     "socket.io": "^4.7.2",
     "sqlite": "^5.0.1",

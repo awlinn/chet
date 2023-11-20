@@ -3,19 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Registration and Login</title>
     <link rel="stylesheet" href="regCss.css">
 </head>
 <body>
-    <form id="registerForm">
-        <p>login</p>
-        <input type="text" id="login">
-        <p>password</p>
-        <input type="text" id="password">
-        <p>passwordRepeat</p>
-        <input type="text" id="passwordRepeat">
-        <input type="submit" value="send">
-    </form>
+    <div class="container">
+        <div id="formContainer">
+
+            <form id="registerForm" >
+                <h2>Register</h2>
+                <p>Username</p>
+                <input type="text" id="username" autocomplete="username">
+                <p>Password</p>
+                <input type="password" id="password" autocomplete="new-password">
+                <p>Confirm Password</p>
+                <input type="password" id="confirmPassword" autocomplete="new-password">
+                <input type="submit" value="Register">
+                <button type="button" onclick="toggleForm('registerForm')">Switch to Login</button>
+            </form>
+        </div>
+    </div>
     <script src="regJs.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const crypto = require("crypto-js");
 const dbFile = "./chat.db";
 const exists = fs.existsSync(dbFile);
 const sqlite3 = require("sqlite3").verbose();
