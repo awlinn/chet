@@ -1,58 +1,95 @@
 const registerForm = document.getElementById('registerForm');
+const lofinForm = document.getElementById('loginForm');
+const body = document.body;
+const container = document.querySelector('.container');
 
-registerForm.addEventListener('submit', (event) => {
+function toggleTheme() {
+    body.classList.toggle('dark-theme');
+    container.classList.toggle('dark-theme');
+}
+registerForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const { login, password, passwordRepeat } = registerForm;
+  const login = document.getElementById("registUsername").value;
+  const password = document.getElementById("registPassword").value;
+  const passwordRepeat = document.getElementById("registconfirmPassword").value;
 
-  if (password.value !== passwordRepeat.value) {
-    alert('Passwords do not match');
-    return;
+  if (password !== passwordRepeat) {
+      return alert('Passwords do not match');
   }
 
- 
-  const user = {
-    login: login.value,
-    password: password.value,
-    passwordRepeat: passwordRepeat.value,
-  };
+  try {
+      const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              login: login,
+              password: password,
+              passwordRepeat: passwordRepeat,
+          }),
+      });
 
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/api/register');
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.send(JSON.stringify(user));
-
-  xhr.onload = () => alert(xhr.response);
+      if (response.ok) {
+          // Redirect to chat page on successful registration
+          window.location.href = '/chat.html';
+      } else {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.message}`);
+      }
+  } catch (error) {
+      console.error('Error during registration:', error);
+  }
 });
 
-function toggleForm(dataSwitch) {
-  console.log(dataSwitch);
 
-  let formContainer = document.getElementById("formContainer");
+
+lofinForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const login = document.getElementById("loginUsername").value;
+  const password = document.getElementById("loginPassword").value;
+
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login: login,
+        password: password
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message}`);
+      } else {
+        alert(`Error: ${response.statusText}`);
+      }
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+  }
+});
+
+
+function toggleForm(dataSwitch) {
+  const registerFormSwitch = document.getElementById("registerForm");
+  const loginFormSwitch = document.getElementById("loginForm");
 
   if (dataSwitch === "loginForm") {
-    formContainer.innerHTML = `
-      <form id="registerForm">
-        <h2>Register</h2>
-        <p>Username</p>
-        <input type="text" id="username" autocomplete="username">
-        <p>Password</p>
-        <input type="password" id="password" autocomplete="new-password">
-        <p>Confirm Password</p>
-        <input type="password" id="confirmPassword" autocomplete="new-password">
-        <input type="submit" value="Register">
-        <button type="button" onclick="toggleForm('registerForm')">Switch to Login</button>
-      </form>`;
+    loginFormSwitch.style.display = "none";
+    registerFormSwitch.style.display = "block";
   } else if (dataSwitch === "registerForm") {
-    formContainer.innerHTML = `
-      <form id="loginForm">
-        <h2>Login</h2>
-        <p>Username</p>
-        <input type="text" id="loginUsername" autocomplete="username">
-        <p>Password</p>
-        <input type="password" id="loginPassword" autocomplete="current-password">
-        <input type="submit" value="Login">
-        <button type="button" onclick="toggleForm('loginForm')">Switch to Register</button>
-      </form>`;
+    registerFormSwitch.style.display = "none";
+    loginFormSwitch.style.display = "block";
   }
 }

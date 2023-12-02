@@ -7,19 +7,30 @@
     <link rel="stylesheet" href="regCss.css">
 </head>
 <body>
+    <div class="btn-container">
+        <button id="themeToggle" class="round-btn" onclick="toggleTheme()">🌙</button>
+    </div>
     <div class="container">
         <div id="formContainer">
-
-            <form id="registerForm" >
+            <form id="registerForm">
                 <h2>Register</h2>
                 <p>Username</p>
-                <input type="text" id="username" autocomplete="username">
+                <input type="text" id="registUsername" autocomplete="username">
                 <p>Password</p>
-                <input type="password" id="password" autocomplete="new-password">
+                <input type="password" id="registPassword" autocomplete="new-password">
                 <p>Confirm Password</p>
-                <input type="password" id="confirmPassword" autocomplete="new-password">
+                <input type="password" id="registconfirmPassword" autocomplete="new-password">
                 <input type="submit" value="Register">
                 <button type="button" onclick="toggleForm('registerForm')">Switch to Login</button>
+            </form>
+            <form id="loginForm" style="display:none">
+                    <h2>Login</h2>
+                    <p>Username</p>
+                    <input type="text" id="loginUsername" autocomplete="username">
+                    <p>Password</p>
+                    <input type="password" id="loginPassword" autocomplete="current-password">
+                    <input type="submit" value="Login">
+                    <button type="button" onclick="toggleForm('loginForm')">Switch to Register</button>
             </form>
         </div>
     </div>

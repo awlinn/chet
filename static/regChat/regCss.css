@@ -1,18 +1,21 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+   
     min-height: 100vh;
-    background-color: #f5f5f5;
+    transition: background-color 0.3s, color 0.3s; 
 }
 
 .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
+    transition: background-color 0.3s, color 0.3s; 
 }
 
 #formContainer {
@@ -22,7 +25,7 @@ body {
 
 form {
     padding: 20px;
-    width: 100%; /* Make the form stretch the entire width */
+    width: 100%; 
     box-sizing: border-box;
 }
 
@@ -32,27 +35,86 @@ form h2 {
 }
 
 input {
-    width: 100%;
+    width: calc(100% - 16px);
     padding: 8px;
     margin-bottom: 10px;
     box-sizing: border-box;
+    background-color: #fff; 
+    color: #333; 
+}
+
+input[type="submit"] {
+    background-color: #3aa740;
+    border: 0px solid black;
+    cursor: pointer;
 }
 
 button {
-    width: 100%;
+    width: calc(100% - 16px);
     padding: 8px;
-    background-color: #4caf50;
-    color: #fff;
+    background-color: #ffffff;
+    color: #333;
     border: none;
     border-radius: 4px;
+    border: 1px solid black;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #fb3232;
+    box-sizing: border-box;
+    border: 1px solid black;
 }
 
-.active-form {
-    transform: translateX(0);
+.round-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3%;
+    top: 20px;
+    right: 20px;
+    border-radius: 60%;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #333;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
 }
 
+.round-btn:hover {
+    background-color: #333;
+    color: #fff;
+    border-color: #fff;
+}
+
+.dark-theme {
+    background-color: #333;
+    color: #fff;
+}
+
+.dark-theme input {
+    background-color: #555;
+    color: #fff;
+}
+
+.dark-theme input[type="submit"] {
+    background-color: #2a9535;
+}
+
+.dark-theme button {
+    background-color: #333;
+    color: #fff;
+    border-color: #fff;
+}
+
+.dark-theme button:hover {
+    background-color: #fb3232;
+    border-color: #fb3232;
+}
+.btn-container{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}

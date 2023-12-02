@@ -1,15 +1,16 @@
 const fs = require('fs');
-const crypto = require("crypto-js");
-const dbFile = "./chat.db";
-const exists = fs.existsSync(dbFile);
 const sqlite3 = require("sqlite3").verbose();
 const dbWrapper = require("sqlite");
 let db;
+const crypto = require("crypto");
+
+const dbFile = "./chat.db";
+const exists = fs.existsSync(dbFile);
 
 dbWrapper.open({
     filename: dbFile,
     driver: sqlite3.Database
-  }).then(async dBase => {
+}).then(async dBase => {
     db = dBase;
     try {
         if (!exists) {
@@ -20,10 +21,8 @@ dbWrapper.open({
                 password TEXT
               )`);
 
-              await db.run(` INSERT INTO user (login, password) VALUES 
-              ('admin', 'admin'), 
-              ('JavaScript', 'banana'), 
-              ('user1', 'password1')`);
+            await db.run(` INSERT INTO user (login, password) VALUES 
+              ('admin', 'admin'`);
 
             await db.run(`
             CREATE TABLE message (
@@ -32,30 +31,51 @@ dbWrapper.open({
               content TEXT,
               FOREIGN KEY (user_id) REFERENCES user(user_id)
             )`);
-          } else {
+        } else {
             console.log(await db.all("SELECT * from user"));
-          }
+        }
     } catch (dbError) {
-      console.error(dbError); 
+        console.error(dbError);
     }
-   
-  
-  });
-  
-   
+});
+
 module.exports = {
-  getMessages: async () => {
-    try {
-      return await db.all(`
-        SELECT msg_id, content, login, user_id
-        FROM message
-        JOIN user ON message.autor = user.user_id
-    `);
-    } catch (dbError) {
-      console.error(dbError);
+    getMessages: async () => {
+        try {
+            return await db.all(`
+              SELECT message_id, content, login, user_id
+              FROM message
+              JOIN user ON message.user_id = user.user_id
+            `);
+        } catch (dbError) {
+            console.error(dbError);
+        }
+    },
+    addMessage: async (msg, userId) => {
+        await db.run(`INSERT INTO message (content, user_id) VALUES (?, ?)`, [msg, userId]);
+    },
+    authenticateUser: async (login, password) => {
+        try {
+            const user = await db.all('SELECT * FROM user WHERE login = ? AND password = ?', [login, password]);
+    
+            if (user.length > 0) {
+                return { isAuthenticated: true, user: user[0] };
+            } else {
+                return { isAuthenticated: false, user: null };
+            }
+        } catch (error) {
+            console.error('Error during authentication:', error);
+            return { isAuthenticated: false, user: null };
+        }
+    },    
+      getAuthToken: async (user) => {
+        const candidate = await db.all('SELECT * FROM user WHERE login = ?', [user.login]);
+        if (!candidate.length) {
+            throw 'Wrong login';
+        }
+        if (candidate[0].password !== user.password) {
+            throw 'Wrong password';
+        }
+        return candidate[0].user_id + '.' + user.login + '.' + crypto.randomBytes(20).toString('hex');
     }
-  },
-  addMessage: async (msg, userId) => {
-    await db.run(`INSERT INTO message (content, user_id) VALUES (?, ?)`, [msg, userId]);
-  }  
-}
+};
