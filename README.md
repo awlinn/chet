@@ -43,7 +43,7 @@ Make sure you have the following installed:
 4.  npm start
     - The server will be running on http://localhost:5050.
 
-    - Usage
+    #### Usage
     - Open your web browser and go to http://localhost:5050.
     - Register a new account or log in with existing credentials.
     - Explore the chat room, send messages, and interact with other users in real-time.
