@@ -31,20 +31,17 @@ Make sure you have the following installed:
 
 1. Clone the repository:
 
-  
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/awlinn/chet.git
    Navigate to the project directory:
 
 2.  cd your-repository
-    Install dependencies:
+ 
 
-
-3. npm install
-    Start the server:
-
+3.    Install dependencies:
+     - npm install
 
 4.  npm start
-    The server will be running on http://localhost:5050.
+    - The server will be running on http://localhost:5050.
 
     - Usage
     - Open your web browser and go to http://localhost:5050.
