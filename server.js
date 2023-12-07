@@ -65,9 +65,9 @@ function loginUser(request, response) {
     request.on('end', async function () {
         try {
             const { login, password } = JSON.parse(data);
-            const isAuthenticated = await db.authenticateUser(login,password);
+            const dbReportAuthenticated = await db.authenticateUser(login, password);
 
-            if (isAuthenticated) {
+            if (dbReportAuthenticated.isAuthenticated) {
                 response.writeHead(200, { 'Content-Type': 'application/json' });
                 response.end(JSON.stringify({ message: 'Login successful' }));
             } else {
@@ -90,7 +90,7 @@ io.on('connection', async (socket) => {
     socket.on('new_message', (message) => {
         console.log('New message from the user ' + socket.id + ': ' + message);
         io.emit('message', message);
-        db.addMessage(message, userId); 
+        db.addMessage(message, userId);
     });
 
     socket.on('changeNickname', (socket) => {
@@ -114,7 +114,7 @@ async function handleAuthentication(request, response) {
             response.writeHead(200);
             response.end(token);
         } catch (e) {
-            response.writeHead(500); 
+            response.writeHead(500);
             return response.end('Error: ' + e.message);
         }
     });

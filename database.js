@@ -57,18 +57,17 @@ module.exports = {
     authenticateUser: async (login, password) => {
         try {
             const user = await db.all('SELECT * FROM user WHERE login = ? AND password = ?', [login, password]);
-    
-            if (user.length > 0) {
-                return { isAuthenticated: true, user: user[0] };
-            } else {
+            if (user.length == 0) {
                 return { isAuthenticated: false, user: null };
+            } else {
+                return { isAuthenticated: true, user: user[0] };
             }
         } catch (error) {
             console.error('Error during authentication:', error);
             return { isAuthenticated: false, user: null };
         }
-    },    
-      getAuthToken: async (user) => {
+    },
+    getAuthToken: async (user) => {
         const candidate = await db.all('SELECT * FROM user WHERE login = ?', [user.login]);
         if (!candidate.length) {
             throw 'Wrong login';

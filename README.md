@@ -16,7 +16,7 @@ This Node.js chat application provides a basic platform for users to register, l
 - Real-time chat functionality
 - Message storage in a SQLite database
 
----
+--- 
 
 ## Getting Started
 

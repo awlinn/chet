@@ -1,15 +1,16 @@
-
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
     padding: 0;
 }
-body{
+
+body {
     width: 100%;
     height: 100%;
 }
 
-.flexElements{
+.flexElements {
     width: 100%;
     height: 100%;
     display: flex;
@@ -18,10 +19,10 @@ body{
     flex-direction: column;
 }
 
-.header{
+.header {
     display: flex;
     color: white;
-    background-color:blue;
+    background-color: blue;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -29,18 +30,19 @@ body{
 
 }
 
-.chatArea{
+.chatArea {
     width: 100%;
     height: 100%;
     font-size: 150%;
 }
-.interactionTool{
+
+.interactionTool {
     width: 100%;
     height: 10%;
     align-items: center;
     flex-direction: row;
     border: 1px solid black;
-    
+
 }
 
 input[type="text"] {
@@ -53,24 +55,25 @@ input[type="text"] {
     padding: 0;
     margin: 0;
 }
-input[type="submit"]{
+
+input[type="submit"] {
     border: none;
     outline: none;
     box-shadow: none;
     background: blue;
-    color:white;
+    color: white;
     width: 15%;
     height: 100%;
 }
 
-.interlocutorMessage{
+.interlocutorMessage {
     color: red;
 }
 
-.myMessage{
+.myMessage {
     color: blue;
 }
 
-ul{
-    list-style-type:  none;
+ul {
+    list-style-type: none;
 }

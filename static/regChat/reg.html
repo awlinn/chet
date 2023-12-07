@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration and Login</title>
     <link rel="stylesheet" href="regCss.css">
 </head>
+
 <body>
     <div class="btn-container">
         <button id="themeToggle" class="round-btn" onclick="toggleTheme()">🌙</button>
@@ -24,16 +26,17 @@
                 <button type="button" onclick="toggleForm('registerForm')">Switch to Login</button>
             </form>
             <form id="loginForm" style="display:none">
-                    <h2>Login</h2>
-                    <p>Username</p>
-                    <input type="text" id="loginUsername" autocomplete="username">
-                    <p>Password</p>
-                    <input type="password" id="loginPassword" autocomplete="current-password">
-                    <input type="submit" value="Login">
-                    <button type="button" onclick="toggleForm('loginForm')">Switch to Register</button>
+                <h2>Login</h2>
+                <p>Username</p>
+                <input type="text" id="loginUsername" autocomplete="username">
+                <p>Password</p>
+                <input type="password" id="loginPassword" autocomplete="current-password">
+                <input type="submit" value="Login">
+                <button type="button" onclick="toggleForm('loginForm')">Switch to Register</button>
             </form>
         </div>
     </div>
     <script src="regJs.js"></script>
 </body>
+
 </html>
