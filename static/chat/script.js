@@ -16,11 +16,7 @@ form.addEventListener('submit', function (event) {
     }
 });
 
-let userNickname = prompt("enter your nickname");
-while (userNickname === "") {
-    userNickname = prompt("enter your nickname");
-}
-socket.emit("changeNickname", userNickname);
+
 
 let messageDiv = document.getElementById("message");
 socket.on('history', function (chatHistory) {

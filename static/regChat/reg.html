@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="regCss.css">
 </head>
 
-<body>
+<body class="dark-theme">
     <div class="btn-container">
         <button id="themeToggle" class="round-btn" onclick="toggleTheme()">🌙</button>
     </div>
-    <div class="container">
+    <div class="container dark-theme">
         <div id="formContainer">
             <form id="registerForm">
                 <h2>Register</h2>
@@ -21,7 +21,7 @@
                 <p>Password</p>
                 <input type="password" id="registPassword" autocomplete="new-password">
                 <p>Confirm Password</p>
-                <input type="password" id="registconfirmPassword" autocomplete="new-password">
+                <input type="password" id="registConfirmPassword" autocomplete="new-password">
                 <input type="submit" value="Register">
                 <button type="button" onclick="toggleForm('registerForm')">Switch to Login</button>
             </form>
@@ -38,5 +38,4 @@
     </div>
     <script src="regJs.js"></script>
 </body>
-
 </html>

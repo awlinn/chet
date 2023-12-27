@@ -21,8 +21,7 @@ dbWrapper.open({
                 password TEXT
               )`);
 
-            await db.run(` INSERT INTO user (login, password) VALUES 
-              ('admin', 'admin'`);
+            await db.run(`INSERT INTO user (login, password) VALUES ('admin', 'admin')`);
 
             await db.run(`
             CREATE TABLE message (
@@ -31,6 +30,7 @@ dbWrapper.open({
               content TEXT,
               FOREIGN KEY (user_id) REFERENCES user(user_id)
             )`);
+            console.log(await db.all("SELECT * from user"));
         } else {
             console.log(await db.all("SELECT * from user"));
         }
@@ -65,6 +65,33 @@ module.exports = {
         } catch (error) {
             console.error('Error during authentication:', error);
             return { isAuthenticated: false, user: null };
+        }
+    },
+    authenticateUserName: async (login) => {
+        try {
+            const user = await db.all('SELECT * FROM user WHERE login = ?', [login]);
+            if (user.length == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (error) {
+            console.error('Error during authentication:', error);
+            return { isAuthenticatedName: false, user: null };
+        }
+    },
+
+    registerUser: async (login, password) => {
+        try {
+            const result = await db.run(`
+                INSERT INTO user (login, password)
+                VALUES (?, ?)`, [login, password]
+            );
+            console.log(await db.all("SELECT * from user"));
+            return result.lastID;
+        } catch (error) {
+            console.error('Error during user registration:', error);
+            throw error;
         }
     },
     getAuthToken: async (user) => {

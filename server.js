@@ -6,6 +6,7 @@ const db = require("./database");
 
 const server = http.createServer((request, response) => {
     if (request.method === "GET") {
+        console.log(request.url);
         switch (request.url) {
             case "/":
                 return response.end(fs.readFileSync(path.join(__dirname, "static", "regChat", "reg.html")));
@@ -36,7 +37,8 @@ const io = new Server(server);
 
 server.listen(5050);
 
-function registerUser(request, response) {
+///registerUser
+async function registerUser(request, response) {
     let data = "";
     request.on("data", function (chunk) {
         data += chunk;
@@ -44,19 +46,32 @@ function registerUser(request, response) {
 
     request.on('end', async function () {
         try {
-            const user = JSON.parse(data);
-            await db.registerUser(user);
+            let parsedData = JSON.parse(data);
+            let login = parsedData.login;
+            let password = parsedData.password;
+            let registConfirmPassword = parsedData.registConfirmPassword;
 
-            response.writeHead(200, { 'Content-Type': 'application/json' });
-            response.end(JSON.stringify({ message: 'Registration successful' }));
+            if (password !== registConfirmPassword) {
+                console.log("Password is not equal to Confirm Password");
+            } else if (await db.authenticateUserName(login)) {
+                console.log("a user with the same name already exists");
+            }
+            else {
+                await db.registerUser(login, password);
+                console.log("successful");
+                response.writeHead(200, { 'Content-Type': 'application/json' });
+                response.end();
+            }
         } catch (e) {
             response.writeHead(500, { 'Content-Type': 'application/json' });
             response.end(JSON.stringify({ error: 'Registration failed', message: e.message }));
+            console.log("500 lol");
         }
     });
 }
 
-function loginUser(request, response) {
+
+async function loginUser(request, response) {
     let data = "";
     request.on("data", function (chunk) {
         data += chunk;
@@ -68,8 +83,8 @@ function loginUser(request, response) {
             const dbReportAuthenticated = await db.authenticateUser(login, password);
 
             if (dbReportAuthenticated.isAuthenticated) {
-                response.writeHead(200, { 'Content-Type': 'application/json' });
-                response.end(JSON.stringify({ message: 'Login successful' }));
+                response.writeHead(302, { 'Location': '/index.html' });
+                response.end();
             } else {
                 response.writeHead(401, { 'Content-Type': 'application/json' });
                 response.end(JSON.stringify({ error: 'Login failed', message: 'Invalid credentials' }));
@@ -100,22 +115,3 @@ io.on('connection', async (socket) => {
 });
 
 
-async function handleAuthentication(request, response) {
-    let data = "";
-    request.on("data", function (chunk) {
-        data += chunk;
-    });
-
-    request.on('end', async function () {
-        try {
-            const user = JSON.parse(data);
-            const token = await db.getAuthToken(user);
-            validAuthTokens.push(token);
-            response.writeHead(200);
-            response.end(token);
-        } catch (e) {
-            response.writeHead(500);
-            return response.end('Error: ' + e.message);
-        }
-    });
-}

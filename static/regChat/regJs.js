@@ -7,77 +7,111 @@ function toggleTheme() {
   body.classList.toggle('dark-theme');
   container.classList.toggle('dark-theme');
 }
-registerForm.addEventListener('submit', async (event) => {
+
+//lofinForm
+lofinForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const login = document.getElementById("loginUsername").value;
+  const password = document.getElementById("loginPassword").value;
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/api/login', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  xhr.onload = function () {
+    if (xhr.status >= 200) {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xhr.responseText, 'application/xml');
+      const errorNode = xmlDoc.querySelector('error'); // Adjust this selector based on your XML structure
+
+      if (errorNode) {
+        const errorMessage = errorNode.textContent;
+        console.log(`Error: ${errorMessage}`);
+      } else {
+        console.log('Login successful');
+        window.location.assign('/index.html');  // successful 
+      }
+    } else {
+      console.log(`Error: ${xhr.statusText}`);
+    }
+  };
+
+  xhr.onerror = function () {
+    console.error('Error during login:', xhr.statusText);
+  };
+
+  xhr.send(JSON.stringify({
+    login: login,
+    password: password
+  }));
+  document.getElementById("loginUsername").value = "";
+  document.getElementById("loginPassword").value = "";
+});
+
+//registerForm
+registerForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
   const login = document.getElementById("registUsername").value;
   const password = document.getElementById("registPassword").value;
-  const passwordRepeat = document.getElementById("registconfirmPassword").value;
+  const registConfirmPassword = document.getElementById("registConfirmPassword").value;
 
-  if (password !== passwordRepeat) {
-    return alert('Passwords do not match');
-  }
+  if (password !== registConfirmPassword) {
+    alert("Password is not equal to Confirm Password")
+  } else {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', "/api/register", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
-  try {
-    const response = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        login: login,
-        password: password,
-        passwordRepeat: passwordRepeat,
-      }),
-    });
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status <= 300) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xhr.responseText, 'application/xml');
+        const errorNode = xmlDoc.querySelector('error'); // Adjust this selector based on your XML structure
 
-    if (response.ok) {
-      window.location.href = '/chat.html';
-    } else {
-      const errorData = await response.json();
-      alert(`Error: ${errorData.message}`);
-    }
-  } catch (error) {
-    console.error('Error during registration:', error);
-  }
-});
-
-
-
-lofinForm.addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const login = document.getElementById("loginUsername").value;
-  const password = document.getElementById("loginPassword").value;
-  console.log(login, password);
-
-  try {
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        login: login,
-        password: password
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      //successful
-    } else {
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const errorData = await response.json();
-        console.log(`Error: ${errorData.message}`);
+        if (errorNode) {
+          const errorMessage = errorNode.textContent;
+          console.log(`Error: ${errorMessage}`);
+        } else {
+          console.log('regist successful');
+          window.location.assign('/index.html');  // successful 
+        }
       } else {
-        console.log(`Error: ${response.statusText}`);
+        console.log(`Error: ${xhr.statusText}`);
       }
-    }
-  } catch (error) {
-    console.error('Error during login:', error);
+    };
+
+    xhr.onerror = function () {
+      console.error('Error during regist:', xhr.statusText);
+    };
+
+    xhr.send(JSON.stringify({
+      login: login,
+      password: password,
+      registConfirmPassword: registConfirmPassword
+    }));
+
+    document.getElementById("registUsername").value = "";
+    document.getElementById("registPassword").value = "";
+    document.getElementById("registConfirmPassword").value = "";
   }
 });
+
+
+
+function toggleForm(dataSwitch) {
+  const registerFormSwitch = document.getElementById("registerForm");
+  const loginFormSwitch = document.getElementById("loginForm");
+
+  if (dataSwitch === "loginForm") {
+    loginFormSwitch.style.display = "none";
+    registerFormSwitch.style.display = "block";
+  } else if (dataSwitch === "registerForm") {
+    registerFormSwitch.style.display = "none";
+    loginFormSwitch.style.display = "block";
+  }
+}
+
+
+
 
