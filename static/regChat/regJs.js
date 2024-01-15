@@ -14,39 +14,64 @@ lofinForm.addEventListener('submit', (event) => {
   const login = document.getElementById("loginUsername").value;
   const password = document.getElementById("loginPassword").value;
 
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/api/login', true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
+  if (login === "" || password === "") {
+    alert("not all lines are filled");
+  } else {
 
-  xhr.onload = function () {
-    if (xhr.status >= 200) {
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xhr.responseText, 'application/xml');
-      const errorNode = xmlDoc.querySelector('error'); // Adjust this selector based on your XML structure
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/login', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    
+    xhr.onload = function () {
 
-      if (errorNode) {
-        const errorMessage = errorNode.textContent;
-        console.log(`Error: ${errorMessage}`);
+      console.log(xhr.response);
+
+      if (xhr.status === 200) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xhr.responseText, 'application/xml');
+        const errorNode = xmlDoc.querySelector('error');
+
+        if (errorNode) {
+          const errorMessage = errorNode.textContent;
+          console.log(`Error: ${errorMessage}`);
+        } else {
+          console.log('Login successful');
+          
+          document.cookie = `token = ${xhr.response.token}`
+          // window.location.assign('/index.html');
+        }
+      } else if (xhr.status === 401) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xhr.responseText, 'application/xml');
+        const errorNode = xmlDoc.querySelector('error');
+
+
+        if (errorNode) {
+          const errorMessage = errorNode.textContent;
+          console.log(`Error: ${errorMessage}`);
+        } else {
+          alert('Invalid credentials');
+        }
       } else {
-        console.log('Login successful');
-        window.location.assign('/index.html');  // successful 
+        console.log(`Error: ${xhr.statusText}`);
       }
-    } else {
-      console.log(`Error: ${xhr.statusText}`);
-    }
-  };
+    };
 
-  xhr.onerror = function () {
-    console.error('Error during login:', xhr.statusText);
-  };
 
-  xhr.send(JSON.stringify({
-    login: login,
-    password: password
-  }));
-  document.getElementById("loginUsername").value = "";
-  document.getElementById("loginPassword").value = "";
+    xhr.onerror = function () {
+      console.error('Error during login:', xhr.statusText);
+    };
+
+    xhr.send(JSON.stringify({
+      login: login,
+      password: password
+    }));
+    document.getElementById("loginUsername").value = "";
+    document.getElementById("loginPassword").value = "";
+  }
+
 });
+
 
 //registerForm
 registerForm.addEventListener('submit', (event) => {
@@ -56,7 +81,9 @@ registerForm.addEventListener('submit', (event) => {
   const password = document.getElementById("registPassword").value;
   const registConfirmPassword = document.getElementById("registConfirmPassword").value;
 
-  if (password !== registConfirmPassword) {
+  if (login === "" || password === "") {
+    alert("not all lines are filled");
+  } else if (password !== registConfirmPassword) {
     alert("Password is not equal to Confirm Password")
   } else {
     const xhr = new XMLHttpRequest();
@@ -64,17 +91,19 @@ registerForm.addEventListener('submit', (event) => {
     xhr.setRequestHeader('Content-Type', 'application/json');
 
     xhr.onload = function () {
+      console.log(xhr.response);
+
       if (xhr.status >= 200 && xhr.status <= 300) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xhr.responseText, 'application/xml');
-        const errorNode = xmlDoc.querySelector('error'); // Adjust this selector based on your XML structure
+        const errorNode = xmlDoc.querySelector('error');
 
         if (errorNode) {
           const errorMessage = errorNode.textContent;
           console.log(`Error: ${errorMessage}`);
         } else {
-          console.log('regist successful');
-          window.location.assign('/index.html');  // successful 
+          alert('regist successful');
+          toggleForm("registerForm");
         }
       } else {
         console.log(`Error: ${xhr.statusText}`);

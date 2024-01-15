@@ -95,6 +95,7 @@ module.exports = {
         }
     },
     getAuthToken: async (user) => {
+        
         const candidate = await db.all('SELECT * FROM user WHERE login = ?', [user.login]);
         if (!candidate.length) {
             throw 'Wrong login';

@@ -50,11 +50,14 @@ async function registerUser(request, response) {
             let login = parsedData.login;
             let password = parsedData.password;
             let registConfirmPassword = parsedData.registConfirmPassword;
-
-            if (password !== registConfirmPassword) {
+            if (login === "" || password === "") {
+                console.log("Login or Password = '' ");
+            }
+            else if (password !== registConfirmPassword) {
                 console.log("Password is not equal to Confirm Password");
-            } else if (await db.authenticateUserName(login)) {
-                console.log("a user with the same name already exists");
+            }
+            else if (await db.authenticateUserName(login)) {
+                console.log("A user with the same name already exists");
             }
             else {
                 await db.registerUser(login, password);
@@ -70,7 +73,6 @@ async function registerUser(request, response) {
     });
 }
 
-
 async function loginUser(request, response) {
     let data = "";
     request.on("data", function (chunk) {
@@ -80,14 +82,16 @@ async function loginUser(request, response) {
     request.on('end', async function () {
         try {
             const { login, password } = JSON.parse(data);
+        
+            const token = await db.getAuthToken({login,password});
             const dbReportAuthenticated = await db.authenticateUser(login, password);
 
             if (dbReportAuthenticated.isAuthenticated) {
-                response.writeHead(302, { 'Location': '/index.html' });
-                response.end();
+                console.log(token);
+                response.end(JSON.stringify({'token':token}));
             } else {
                 response.writeHead(401, { 'Content-Type': 'application/json' });
-                response.end(JSON.stringify({ error: 'Login failed', message: 'Invalid credentials' }));
+                response.end(JSON.stringify({ error: 'Login error', message: 'Invalid credentials' }));
             }
         } catch (e) {
             response.writeHead(500, { 'Content-Type': 'application/json' });
@@ -95,6 +99,7 @@ async function loginUser(request, response) {
         }
     });
 }
+
 
 
 io.on('connection', async (socket) => {
@@ -113,5 +118,7 @@ io.on('connection', async (socket) => {
         console.log(userNickname);
     });
 });
+
+
 
 
