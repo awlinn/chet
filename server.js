@@ -81,14 +81,15 @@ async function loginUser(request, response) {
 
     request.on('end', async function () {
         try {
-            const { login, password } = JSON.parse(data);
+            const{login, password} = JSON.parse(data);
         
             const token = await db.getAuthToken({login,password});
+            console.log(token);
             const dbReportAuthenticated = await db.authenticateUser(login, password);
 
             if (dbReportAuthenticated.isAuthenticated) {
-                console.log(token);
-                response.end(JSON.stringify({'token':token}));
+                console.log(JSON.stringify(token));
+                response.end(JSON.stringify(token));
             } else {
                 response.writeHead(401, { 'Content-Type': 'application/json' });
                 response.end(JSON.stringify({ error: 'Login error', message: 'Invalid credentials' }));

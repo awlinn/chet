@@ -24,7 +24,11 @@ lofinForm.addEventListener('submit', (event) => {
     
     xhr.onload = function () {
 
-      console.log(xhr.response);
+      console.log(xhr.responseм);
+
+      let responseToken = xhr.response;
+      console.log(responseToken);
+
 
       if (xhr.status === 200) {
         const parser = new DOMParser();
@@ -37,7 +41,8 @@ lofinForm.addEventListener('submit', (event) => {
         } else {
           console.log('Login successful');
           
-          document.cookie = `token = ${xhr.response.token}`
+          document.cookie = `token = ${xhr.response}`
+          console.log(document.cookie);
           // window.location.assign('/index.html');
         }
       } else if (xhr.status === 401) {
