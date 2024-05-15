@@ -3,9 +3,11 @@ const lofinForm = document.getElementById('loginForm');
 const body = document.body;
 const container = document.querySelector('.container');
 
+
 function toggleTheme() {
   body.classList.toggle('dark-theme');
   container.classList.toggle('dark-theme');
+  document.getElementById("borderDiv").classList.toggle('dark-theme-border');
 }
 
 //lofinForm
@@ -21,7 +23,7 @@ lofinForm.addEventListener('submit', (event) => {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/api/login', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    
+
     xhr.onload = function () {
 
       console.log(xhr.responseм);
@@ -40,7 +42,7 @@ lofinForm.addEventListener('submit', (event) => {
           console.log(`Error: ${errorMessage}`);
         } else {
           console.log('Login successful');
-          
+
           document.cookie = `token = ${xhr.response}`
           console.log(document.cookie);
           // window.location.assign('/index.html');

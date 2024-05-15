@@ -30,9 +30,9 @@ dbWrapper.open({
               content TEXT,
               FOREIGN KEY (user_id) REFERENCES user(user_id)
             )`);
-            console.log(await db.all("SELECT * from user"));
+            console.log(await db.all("SELECT * from user"),"new db");
         } else {
-            console.log(await db.all("SELECT * from user"));
+            console.log('server started');
         }
     } catch (dbError) {
         console.error(dbError);

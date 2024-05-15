@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration and Login</title>
     <link rel="stylesheet" href="regCss.css">
+    <link rel="shortcut icon"
+        href="https://w7.pngwing.com/pngs/546/340/png-transparent-livechat-online-chat-logo-computer-icons-live-chat-miscellaneous-face-logo-thumbnail.png"
+        type="image/x-icon">
 </head>
 
 <body class="dark-theme">
     <div class="btn-container">
         <button id="themeToggle" class="round-btn" onclick="toggleTheme()">🌙</button>
     </div>
-    <div class="container dark-theme">
+    <div class="container dark-theme grid-container">
+        <div></div>
         <div id="formContainer">
             <form id="registerForm">
                 <h2>Register</h2>
@@ -22,8 +25,9 @@
                 <input type="password" id="registPassword" autocomplete="new-password">
                 <p>Confirm Password</p>
                 <input type="password" id="registConfirmPassword" autocomplete="new-password">
-                <input type="submit" value="Register">
-                <button type="button" onclick="toggleForm('registerForm')">Switch to Login</button>
+                <input type="submit" value="Create your account ">
+                <button type="button" onclick="toggleForm('registerForm')">(Already have an account?)<br>Switch to
+                    Login</button>
             </form>
             <form id="loginForm" style="display:none">
                 <h2>Login</h2>
@@ -31,11 +35,17 @@
                 <input type="text" id="loginUsername" autocomplete="username">
                 <p>Password</p>
                 <input type="password" id="loginPassword" autocomplete="current-password">
-                <input type="submit" value="Login">
-                <button type="button" onclick="toggleForm('loginForm')">Switch to Register</button>
+                <input type="submit" value="Sing in">
+                <button type="button" onclick="toggleForm('loginForm')">(Don't have an account?)<br>Create
+                    account</button>
             </form>
+        </div>
+        <div id="borderDiv" class="theme-border"></div>
+        <div class="aboutUsInf">
+            <h2><p class="textTelegram">Telegram 2.0 Messenger:</p> Instant Communication, Anywhere, Anytime!</h2><p>Telegram 2.0 Messenger is your go-to platform for fast, secure messaging, whether you're sharing updates with friends, coordinating with colleagues, or staying in touch with family. With features like encrypted messaging, group chats, voice calls, and file sharing, Telegram keeps you connected across devices, without compromising on privacy.</p>
         </div>
     </div>
     <script src="regJs.js"></script>
 </body>
+
 </html>

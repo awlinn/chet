@@ -1,8 +1,9 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-
-    min-height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    overflow-y: scroll;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -12,7 +13,7 @@ body {
     justify-content: center;
     width: 100%;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
     border-radius: 8px;
     overflow: hidden;
     transition: background-color 0.3s, color 0.3s;
@@ -31,7 +32,7 @@ form {
 
 form h2 {
     text-align: center;
-    color: #333;
+
 }
 
 input {
@@ -41,12 +42,14 @@ input {
     box-sizing: border-box;
     background-color: #fff;
     color: #333;
+
 }
 
 input[type="submit"] {
-    background-color: #3aa740;
-    border: 0px solid black;
+    background-color: #0dc416;
+    border: 0px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 button {
@@ -61,19 +64,18 @@ button {
 }
 
 button:hover {
-    background-color: #fb3232;
-    box-sizing: border-box;
-    border: 1px solid black;
+    background-color: #000000;
+    border-color: #ffffff;
+    color: #fffdfd;
 }
 
 .round-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 3%;
-    top: 20px;
-    right: 20px;
-    border-radius: 60%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     background-color: #fff;
     color: #333;
     border: 1px solid #333;
@@ -110,12 +112,53 @@ button:hover {
 }
 
 .dark-theme button:hover {
-    background-color: #fb3232;
-    border-color: #fb3232;
+    background-color: #ffffffda;
+    color: #000000;
+}
+
+input[type="submit"]:active {
+    background-color: #026f0d;
+    color: #ffffffd4;
+}
+
+input[type="submit"]:hover {
+    background-color: #06e31cd5;
+    color: #ffffff;
 }
 
 .btn-container {
     display: flex;
-    justify-content: right;
     align-items: center;
+    margin-top: 1%;
+    margin-left: 2%;
+}
+
+.grid-container{
+    display: grid;
+    grid-template-columns: 15% 35% 4% 44%;
+}
+
+@media screen and (max-width: 700px) {
+    .container > *:not(#formContainer) {
+      display: none;
+    }
+    .grid-container{
+        display: flex;
+    }
+  }
+  
+.textTelegram{
+    color: rgba(255, 0, 0, 0.594);
+    margin: 0;
+}
+
+
+#borderDiv{
+    height: 100%;
+}
+.theme-border{
+    border-left:2px solid rgb(255, 255, 255);
+}
+.dark-theme-border{
+    border-left:2px solid rgb(0, 0, 0);
 }

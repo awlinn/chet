@@ -34,7 +34,6 @@ const server = http.createServer((request, response) => {
 });
 
 const io = new Server(server);
-
 server.listen(5050);
 
 ///registerUser
@@ -50,6 +49,7 @@ async function registerUser(request, response) {
             let login = parsedData.login;
             let password = parsedData.password;
             let registConfirmPassword = parsedData.registConfirmPassword;
+
             if (login === "" || password === "") {
                 console.log("Login or Password = '' ");
             }
@@ -61,7 +61,7 @@ async function registerUser(request, response) {
             }
             else {
                 await db.registerUser(login, password);
-                console.log("successful");
+                console.log("successful reg");
                 response.writeHead(200, { 'Content-Type': 'application/json' });
                 response.end();
             }
@@ -73,6 +73,7 @@ async function registerUser(request, response) {
     });
 }
 
+///loginUser
 async function loginUser(request, response) {
     let data = "";
     request.on("data", function (chunk) {
@@ -80,16 +81,14 @@ async function loginUser(request, response) {
     });
 
     request.on('end', async function () {
+        console.log(data);
         try {
             const{login, password} = JSON.parse(data);
-        
-            const token = await db.getAuthToken({login,password});
-            console.log(token);
             const dbReportAuthenticated = await db.authenticateUser(login, password);
 
             if (dbReportAuthenticated.isAuthenticated) {
-                console.log(JSON.stringify(token));
-                response.end(JSON.stringify(token));
+                console.log(JSON.stringify(await db.getAuthToken({login,password})));
+                response.end(JSON.stringify(await db.getAuthToken({login,password})));
             } else {
                 response.writeHead(401, { 'Content-Type': 'application/json' });
                 response.end(JSON.stringify({ error: 'Login error', message: 'Invalid credentials' }));
@@ -104,7 +103,7 @@ async function loginUser(request, response) {
 
 
 io.on('connection', async (socket) => {
-    const message = "New message";
+    const message = "New message :)";
     const userId = 1;
     await db.addMessage(message, userId);
 

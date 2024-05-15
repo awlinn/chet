@@ -1,7 +1,7 @@
 const socket = io();
 const form = document.querySelector('form');
 
-for (let i = 0; i <= 9; i++) {
+for (let i = 0; i <= 10; i++) {
     let a = "2";
     a <<= i;
     console.log(a);
